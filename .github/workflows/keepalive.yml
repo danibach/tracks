@@ -1,0 +1,20 @@
+name: Garder Supabase actif
+
+# Le projet Supabase gratuit se met en pause après environ une semaine sans activité.
+# Cette tâche l'interroge deux fois par semaine pour l'en empêcher.
+# Elle ne contient que la clé publique du site (lecture seule).
+
+on:
+  schedule:
+    - cron: "17 6 * * 1,4"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Interroger la base
+        run: |
+          curl --fail --silent --show-error --max-time 30 \
+            -H "apikey: sb_publishable_lQGLe10NlBKFSLz6sapaKg_cgzjH_Hv" \
+            "https://fjwsmdglbnmmelfamyol.supabase.co/rest/v1/traces?select=id&limit=1"

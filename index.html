@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Traces</title>
+  <meta name="description" content="Carte de traces GPS partagées : GPX, FIT, KML et IGC.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="panel" aria-label="Liste des traces">
+      <header class="panel-head">
+        <h1 id="site-name">Traces</h1>
+        <p id="count" class="count" role="status">Chargement des traces…</p>
+        <button type="button" id="open-upload" class="btn primary">Ajouter une trace</button>
+      </header>
+
+      <div class="filters">
+        <input id="search" type="search" placeholder="Rechercher un titre ou un pilote" aria-label="Rechercher un titre ou un pilote" autocomplete="off">
+        <div class="filter-row">
+          <div class="formats" role="group" aria-label="Formats de fichier">
+            <button type="button" class="chip" aria-pressed="false" data-format="gpx">GPX</button>
+            <button type="button" class="chip" aria-pressed="false" data-format="fit">FIT</button>
+            <button type="button" class="chip" aria-pressed="false" data-format="kml">KML</button>
+            <button type="button" class="chip" aria-pressed="false" data-format="igc">IGC</button>
+          </div>
+          <select id="sort" aria-label="Trier les traces">
+            <option value="recent">Plus récentes</option>
+            <option value="distance">Plus longues</option>
+            <option value="altitude">Plus hautes</option>
+          </select>
+        </div>
+      </div>
+
+      <ul id="list" class="list"></ul>
+
+      <footer class="panel-foot">
+        <button type="button" id="open-privacy" class="linklike">Données et confidentialité</button>
+      </footer>
+    </aside>
+
+    <main class="stage">
+      <div id="map" aria-label="Carte des traces"></div>
+    </main>
+  </div>
+
+  <dialog id="upload-dialog" aria-labelledby="upload-title">
+    <form id="upload-form" method="dialog" novalidate>
+      <div class="dialog-head">
+        <h2 id="upload-title">Ajouter une trace</h2>
+        <button type="button" class="close" data-close aria-label="Fermer">×</button>
+      </div>
+
+      <label class="drop" id="drop" for="file">
+        <span class="drop-main" id="drop-main">Choisir un fichier ou le déposer ici</span>
+        <span class="drop-hint" id="drop-hint">GPX, FIT, KML ou IGC, 6 Mo au maximum.</span>
+        <input id="file" type="file" accept=".gpx,.fit,.kml,.igc" />
+      </label>
+
+      <div id="preview" class="preview" hidden>
+        <dl class="facts" id="preview-facts"></dl>
+        <svg id="preview-profile" class="profile" role="img" aria-label="Profil d'altitude de la trace"></svg>
+      </div>
+
+      <div class="field">
+        <label for="title">Titre (facultatif)</label>
+        <input id="title" type="text" maxlength="80" autocomplete="off">
+        <p class="help">Sans titre, le nom du fichier est utilisé.</p>
+      </div>
+      <div class="field">
+        <label for="pilot">Nom affiché (facultatif)</label>
+        <input id="pilot" type="text" maxlength="60" autocomplete="off">
+      </div>
+
+      <label class="check">
+        <input id="consent" type="checkbox">
+        <span>J'accepte que ma trace, point de départ compris, soit visible publiquement sur ce site.</span>
+      </label>
+
+      <div id="turnstile" class="turnstile"></div>
+
+      <p id="form-status" class="status" role="status" aria-live="polite"></p>
+
+      <div class="dialog-actions">
+        <button type="button" class="btn" data-close>Annuler</button>
+        <button type="submit" id="submit" class="btn primary" disabled>Envoyer la trace</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="privacy-dialog" aria-labelledby="privacy-title">
+    <div class="dialog-head">
+      <h2 id="privacy-title">Données et confidentialité</h2>
+      <button type="button" class="close" data-close aria-label="Fermer">×</button>
+    </div>
+    <div class="prose" id="privacy-text"></div>
+    <div class="dialog-actions">
+      <button type="button" class="btn primary" data-close>Fermer</button>
+    </div>
+  </dialog>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

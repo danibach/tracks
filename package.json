@@ -1,0 +1,12 @@
+{
+  "name": "tracks",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tests/parsers.test.mjs && node tests/function.test.mjs"
+  },
+  "devDependencies": {
+    "linkedom": "^0.18.0",
+    "esbuild": "^0.25.0"
+  }
+}
